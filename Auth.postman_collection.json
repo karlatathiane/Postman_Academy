@@ -1,0 +1,3381 @@
+{
+	"info": {
+		"_postman_id": "f9071cd2-d4c4-48d7-907c-e7e0b8d652d9",
+		"name": "Auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33499544"
+	},
+	"item": [
+		{
+			"name": "Login+",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de sucesso está presente\", function () {\r",
+									"    pm.expect(pm.response.text()).to.eql('Olá ${pm.environment.get(\"FullName\")}, autenticação autorizada com sucesso!');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de sucesso está presente\", function () {\r",
+									"    pm.expect('Olá ${pm.environment.get(\"FullName\")}, autenticação autorizada com sucesso!').to.eql(pm.response.text());\r",
+									"});\r",
+									"\r",
+									"pm.test('Check if token exists', function () {\r",
+									"    pm.expect(JSON.parse(responseBody).token).to.exist;\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function firstName() {\r",
+									"\r",
+									"    let firstName = [ \"Karla\", \"Tathiane\", \"Wagner\", \"Uriel\",\"Maria\", \"Pablo\", \"João\", \"Yasmin\", \"Raissa\", \"Lais\",\"Alicia\", \"Luiz\", \"Maria\", \"Mary\",\"Liz\", \"Tadeu\",\"Luca\", \"Carlos\", \"Eduardo\", \"Felipe\", \"David\", \"Daniel\", \"Yuri\", \"Joaquim\", \"Eduardo\", \"Samuel\", \"Victor\", \"Leonardo\", \"Bruno\", \"Hugo\", \"Augusto\", \"André\", \"Tiago\", \"Calebe\", \"Igor\", \"Levi\", \"Alan\", \"Emanuel\", \"Aarão\", \"Luana\", \"Diana\", \"Marina\", \"Estela\", \"Lia\", \"Micaela\", \"Ariana\", \"Fernanda\", \"Emanuela\", \"Débora\", \"Anita\", \"Eva\", \"Joana\", \"Daniela\", \"Paloma\", \"Yara\", \"Juliana\"];\r",
+									"\r",
+									"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"FirtsName\", firstName());\r",
+									"\r",
+									"function lastName() {\r",
+									"\r",
+									"let lastName = [\"Cruz\", \"Penha\", \"Silva\", \"Pinheiro\",\"da Cruz\", \"Lima\", \"de Carvalho\", \"Araujo\", \"Deluca\", \"Alvez\", \"Luz\",\"Alvarenga\", \"Souza\", \"de Lima\", \"Almeida\", \"Barbosa\", \"Batista\",\" Castro\", \"Duarte\", \"Ferreira\", \"Garcia\", \"Gomes\", \"Lopes\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Rocha\", \"Rodriguez\", \"Santos\", \"Teixeira\", \"Vieira\", \"Soarez\", \"Santana\", \"Gonçalvez\", \"Ribeiro\", \"Ramos\", \"Costa\", \"Carvalho\", \"Martins\", \"Cardoso\", \"Freitas\", \"Mendes\", \"Machado\", \"Marques\", \"Nunes\", \"Moreira\",\"Andrade\", \"Dias\", \"Fernandes\"];\r",
+									"\r",
+									"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"LastName\", lastName());\r",
+									"\r",
+									"pm.environment.set(\"FullName\", pm.environment.get(\"FirtsName\") + \" \" + pm.environment.get(\"LastName\"));\r",
+									"\r",
+									"function providerMail() {\r",
+									"\r",
+									"    let providerMail = [\"@yahoo.com.br\", \"@gmail.com\", \"@outlook.com\", \"@hotmail.com\", \"@uol.com.br\", \"@terra.com\", \"@protonmail.com\", \"@mailbox.org\", \"@hobspot.com\", \"@posteo.com\", \"@privatemail.com\", \"@smartmail.com\", \"@hushmail.com\", \"@coutermail.com\", \"@mailfence.com\", \"@runbox.com\",\"@Kolabnow.com\"];\r",
+									"\r",
+									"    let randomItem = providerMail[Math.floor(Math.random() * providerMail.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"ProviderMail\", providerMail());\r",
+									"\r",
+									"pm.environment.set(\"Mail\", pm.environment.get(\"FirtsName\") + \"_\" + pm.variables.replaceIn('{{$timestamp}}') + pm.environment.get(\"ProviderMail\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mail\": \"{{Mail}}\",\r\n  \"password\": \"{{Password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}login/",
+							"host": [
+								"{{url}}login"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test('Validate tokes is true', function () {",
+									"    if (JSON.parse(responseBody).valid === true) {",
+									"        pm.environment.set('TokenResult', true);",
+									"    } else {",
+									"        pm.environment.set('TokenResult', false);",
+									"    }",
+									"    pm.expect(pm.environment.get('TokenResult')).to.eql(true);",
+									"})",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWZmNGE1MzNmNTZhZTFmMzA1OTkwMjYiLCJmdWxsTmFtZSI6Ikp1cmlzY3JlaWRlIENydXoiLCJtYWlsIjoiSnVyaXNjcmVpZGVAdGVzdC5jb20uYnIiLCJwYXNzd29yZCI6IiQyYiQxMCRoZVVpWkZxdE9ONm9DLlpuNVROVFJPS0V0Y0d6UGVBMG1mTnRoWXE3LnRYUms0NVFXNkZESyIsImFjY2Vzc1Byb2ZpbGUiOiJBRE1JTiIsImNwZiI6IjAwMDk5OTc3NzU0Iiwic3RhdHVzIjp0cnVlLCJhdWRpdCI6W3sicmVnaXN0ZXJlZEJ5Ijp7InVzZXJJZCI6IjY1NWU5MWExNzQ4YzYxNzIyOWJjZDY0ZSIsInVzZXJMb2dpbiI6InN5c2FkbWluQHFhY29kZXJzLmNvbSJ9LCJyZWdpc3RyYXRpb25EYXRlIjoic8OhYmFkbywgMjMvMDMvMjAyNCwgMTg6MzI6MDMgQlJUIiwicmVnaXN0cmF0aW9uTnVtYmVyIjoiUWFDb2RlcnMtMjM1IiwiX2lkIjoiNjVmZjRhNTMzZjU2YWUxZjMwNTk5MDI3In0seyJ1cGRhdGVkQnkiOnsidXNlcklkIjoiNjU1ZTkxYTE3NDhjNjE3MjI5YmNkNjRlIiwidXNlckxvZ2luIjoic3lzYWRtaW5AcWFjb2RlcnMuY29tIn0sInVwZGF0ZURhdGUiOiJzw6FiYWRvLCAyMy8wMy8yMDI0LCAyMjoxMDoyNCBCUlQiLCJfaWQiOiI2NWZmN2Q4MDNmNTZhZTFmMzA1OTkwNDAifV0sIl9fdiI6MCwiaWF0IjoxNzExNTA0MzEzLCJleHAiOjE3MTE1OTA3MTN9.JsoEVFcd1MSJO6TSDuPj6oejo2i3th9kk0ldOkH-pBA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}validatetoken/",
+							"host": [
+								"{{url}}validatetoken"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login default",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mail\": \"sysadmin@qacoders.com\",\r\n  \"password\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}login/",
+							"host": [
+								"{{url}}login"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "User+",
+			"item": [
+				{
+					"name": "Count",
+					"item": [
+						{
+							"name": "count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"count1\", pm.response.json().count);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}user/count/",
+									"host": [
+										"{{url}}user"
+									],
+									"path": [
+										"count",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create user count",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function firstName() {\r",
+											"\r",
+											"    let firstName = [ \"Karla\", \"Tathiane\", \"Wagner\", \"Uriel\",\"Maria\", \"Pablo\", \"João\", \"Yasmin\", \"Raissa\", \"Lais\",\"Alicia\", \"Luiz\", \"Maria\", \"Mary\",\"Liz\", \"Tadeu\",\"Luca\", \"Carlos\", \"Eduardo\", \"Felipe\", \"David\", \"Daniel\", \"Yuri\", \"Joaquim\", \"Eduardo\", \"Samuel\", \"Victor\", \"Leonardo\", \"Bruno\", \"Hugo\", \"Augusto\", \"André\", \"Tiago\", \"Calebe\", \"Igor\", \"Levi\", \"Alan\", \"Emanuel\", \"Aarão\", \"Luana\", \"Diana\", \"Marina\", \"Estela\", \"Lia\", \"Micaela\", \"Ariana\", \"Fernanda\", \"Emanuela\", \"Débora\", \"Anita\", \"Eva\", \"Joana\", \"Daniela\", \"Paloma\", \"Yara\", \"Juliana\"];\r",
+											"\r",
+											"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"FirtsName\", firstName());\r",
+											"\r",
+											"function lastName() {\r",
+											"\r",
+											"let lastName = [\"Cruz\", \"Penha\", \"Silva\", \"Pinheiro\",\"da Cruz\", \"Lima\", \"de Carvalho\", \"Araujo\", \"Deluca\", \"Alvez\", \"Luz\",\"Alvarenga\", \"Souza\", \"de Lima\", \"Almeida\", \"Barbosa\", \"Batista\",\" Castro\", \"Duarte\", \"Ferreira\", \"Garcia\", \"Gomes\", \"Lopes\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Rocha\", \"Rodriguez\", \"Santos\", \"Teixeira\", \"Vieira\", \"Soarez\", \"Santana\", \"Gonçalvez\", \"Ribeiro\", \"Ramos\", \"Costa\", \"Carvalho\", \"Martins\", \"Cardoso\", \"Freitas\", \"Mendes\", \"Machado\", \"Marques\", \"Nunes\", \"Moreira\",\"Andrade\", \"Dias\", \"Fernandes\"];\r",
+											"\r",
+											"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"LastName\", lastName());\r",
+											"\r",
+											"pm.environment.set(\"FullName\", pm.environment.get(\"FirtsName\") + \" \" + pm.environment.get(\"LastName\"));\r",
+											"\r",
+											"function accessProfile() {\r",
+											"\r",
+											"    let accessProfile = [\"ADMIN\", \"FINANCEIRO\", \"TI\", \"CONTROLADORIA\", \"ADMINISTRADOR\", \"GUEST\", \"MASTER\", \"GESTOR\", \"RH\", \"CONTADOR\", \"RECEPCIONISTA\", \"RESPONSÁVEL FINANCEIRO\"];\r",
+											"\r",
+											"    let randomItem = accessProfile[Math.floor(Math.random() * accessProfile.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"AccessProfile\", accessProfile());\r",
+											"\r",
+											"\r",
+											"function providerMail() {\r",
+											"\r",
+											"    let providerMail = [\"@yahoo.com.br\", \"@gmail.com\", \"@outlook.com\", \"@hotmail.com\", \"@uol.com.br\", \"@terra.com\", \"@protonmail.com\", \"@mailbox.org\", \"@hobspot.com\", \"@posteo.com\", \"@privatemail.com\", \"@smartmail.com\", \"@hushmail.com\", \"@coutermail.com\", \"@mailfence.com\", \"@runbox.com\",\"@Kolabnow.com\"];\r",
+											"\r",
+											"    let randomItem = providerMail[Math.floor(Math.random() * providerMail.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"ProviderMail\", providerMail());\r",
+											"\r",
+											"pm.environment.set(\"Mail\", pm.environment.get(\"FirtsName\") + \"_\" + pm.variables.replaceIn('{{$timestamp}}') + pm.environment.get(\"ProviderMail\"));\r",
+											"\r",
+											"function gerarCPF() {\r",
+											"    let num = Math.floor(Math.random() * 999999999);\r",
+											"    let cpf = num.toString().padStart(9, '0');\r",
+											"    cpf += calcularDigito(cpf);\r",
+											"    cpf += calcularDigito(cpf);\r",
+											" \r",
+											"    return cpf;\r",
+											"}\r",
+											" \r",
+											"function calcularDigito(cpf) {\r",
+											"    let soma = 0;\r",
+											"    for (let i = 0; i < cpf.length; i++) {\r",
+											"        soma += parseInt(cpf[i]) * ((cpf.length + 1) - i);\r",
+											"    }\r",
+											"    let resto = (soma * 10) % 11;\r",
+											"    return (resto > 9) ? '0' : resto.toString();\r",
+											"}\r",
+											" \r",
+											"// Definir a variável no Postman\r",
+											"pm.environment.set(\"Cpf\", gerarCPF());"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check is token exists\", function(){\r",
+											"    pm.expect(JSON.parse(responseBody).token).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check is fullName true\", function(){\r",
+											"    pm.expect(pm.environment.get(\"FullName\")).to.eql(JSON.parse(responseBody).user.fulName);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check is mail true\", function(){\r",
+											"    pm.expect(pm.environment.get(\"Mail\")).to.eql(JSON.parse(responseBody).user.mail);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check is accessProfile true\", function(){\r",
+											"    pm.expect(pm.environment.get(\"AccessProfile\")).to.eql(JSON.parse(responseBody).user.accessProfile);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check is status true\", function(){\r",
+											"    pm.expect(true).to.eql(JSON.parse(responseBody).user.status);\r",
+											"})\r",
+											"\r",
+											"pm.environment.set(\"id\", pm.response.json().user._id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fullName\": \"{{FullName}}\",\r\n    \"mail\": \"{{Mail}}\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"{{Cpf}}\",\r\n    \"password\": \"{{Password}}\",\r\n    \"confirmPassword\": \"{{Password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}user/",
+									"host": [
+										"{{url}}user"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Count validator\", function(){\r",
+											"    let count = pm.variables.get(\"count1\") + 1\r",
+											"    pm.expect(JSON.parse(responseBody).count).to.eql(count);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}user/count/",
+									"host": [
+										"{{url}}user"
+									],
+									"path": [
+										"count",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Usuários são listados corretamente\", function () {\r",
+									"    const fullName = pm.response.json();\r",
+									"    console.log(fullName)\r",
+									"       pm.expect(fullName.length).to.be.above(0);\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function firstName() {\r",
+									"\r",
+									"    let firstName = [ \"Karla\", \"Tathiane\", \"Wagner\", \"Uriel\",\"Maria\", \"Pablo\", \"João\", \"Yasmin\", \"Raissa\", \"Lais\",\"Alicia\", \"Luiz\", \"Maria\", \"Mary\",\"Liz\", \"Tadeu\",\"Luca\", \"Carlos\", \"Eduardo\", \"Felipe\", \"David\", \"Daniel\", \"Yuri\", \"Joaquim\", \"Eduardo\", \"Samuel\", \"Victor\", \"Leonardo\", \"Bruno\", \"Hugo\", \"Augusto\", \"André\", \"Tiago\", \"Calebe\", \"Igor\", \"Levi\", \"Alan\", \"Emanuel\", \"Aarão\", \"Luana\", \"Diana\", \"Marina\", \"Estela\", \"Lia\", \"Micaela\", \"Ariana\", \"Fernanda\", \"Emanuela\", \"Débora\", \"Anita\", \"Eva\", \"Joana\", \"Daniela\", \"Paloma\", \"Yara\", \"Juliana\"];\r",
+									"\r",
+									"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"FirtsName\", firstName());\r",
+									"\r",
+									"function lastName() {\r",
+									"\r",
+									"let lastName = [\"Cruz\", \"Penha\", \"Silva\", \"Pinheiro\",\"da Cruz\", \"Lima\", \"de Carvalho\", \"Araujo\", \"Deluca\", \"Alvez\", \"Luz\",\"Alvarenga\", \"Souza\", \"de Lima\", \"Almeida\", \"Barbosa\", \"Batista\",\" Castro\", \"Duarte\", \"Ferreira\", \"Garcia\", \"Gomes\", \"Lopes\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Rocha\", \"Rodriguez\", \"Santos\", \"Teixeira\", \"Vieira\", \"Soarez\", \"Santana\", \"Gonçalvez\", \"Ribeiro\", \"Ramos\", \"Costa\", \"Carvalho\", \"Martins\", \"Cardoso\", \"Freitas\", \"Mendes\", \"Machado\", \"Marques\", \"Nunes\", \"Moreira\",\"Andrade\", \"Dias\", \"Fernandes\"];\r",
+									"\r",
+									"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"LastName\", lastName());\r",
+									"\r",
+									"pm.environment.set(\"FullName\", pm.environment.get(\"FirtsName\") + \" \" + pm.environment.get(\"LastName\"));\r",
+									"\r",
+									"function accessProfile() {\r",
+									"\r",
+									"    let accessProfile = [\"ADMIN\", \"FINANCEIRO\", \"TI\", \"CONTROLADORIA\", \"ADMINISTRADOR\", \"GUEST\", \"MASTER\", \"GESTOR\", \"RH\", \"CONTADOR\", \"RECEPCIONISTA\", \"RESPONSÁVEL FINANCEIRO\"];\r",
+									"\r",
+									"    let randomItem = accessProfile[Math.floor(Math.random() * accessProfile.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"AccessProfile\", accessProfile());\r",
+									"\r",
+									"\r",
+									"function providerMail() {\r",
+									"\r",
+									"    let providerMail = [\"@yahoo.com.br\", \"@gmail.com\", \"@outlook.com\", \"@hotmail.com\", \"@uol.com.br\", \"@terra.com\", \"@protonmail.com\", \"@mailbox.org\", \"@hobspot.com\", \"@posteo.com\", \"@privatemail.com\", \"@smartmail.com\", \"@hushmail.com\", \"@coutermail.com\", \"@mailfence.com\", \"@runbox.com\",\"@Kolabnow.com\"];\r",
+									"\r",
+									"    let randomItem = providerMail[Math.floor(Math.random() * providerMail.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"ProviderMail\", providerMail());\r",
+									"\r",
+									"pm.environment.set(\"Mail\", pm.environment.get(\"FirtsName\") + \"_\" + pm.variables.replaceIn('{{$timestamp}}') + pm.environment.get(\"ProviderMail\"));\r",
+									"\r",
+									"function gerarCPF() {\r",
+									"    let num = Math.floor(Math.random() * 999999999);\r",
+									"    let cpf = num.toString().padStart(9, '0');\r",
+									"    cpf += calcularDigito(cpf);\r",
+									"    cpf += calcularDigito(cpf);\r",
+									" \r",
+									"    return cpf;\r",
+									"}\r",
+									" \r",
+									"function calcularDigito(cpf) {\r",
+									"    let soma = 0;\r",
+									"    for (let i = 0; i < cpf.length; i++) {\r",
+									"        soma += parseInt(cpf[i]) * ((cpf.length + 1) - i);\r",
+									"    }\r",
+									"    let resto = (soma * 10) % 11;\r",
+									"    return (resto > 9) ? '0' : resto.toString();\r",
+									"}\r",
+									" \r",
+									"pm.environment.set(\"Cpf\", gerarCPF());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if fullName true\", function(){\r",
+									"    pm.expect(pm.environment.get(\"FullName\")).to.eql(JSON.parse(responseBody).user.fullName);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if mail true\", function(){\r",
+									"    pm.expect(pm.environment.get(\"Mail\")).to.eql(JSON.parse(responseBody).user.mail);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if status true\", function(){\r",
+									"    pm.expect(true).to.eql(JSON.parse(responseBody).user.status);\r",
+									"})\r",
+									"\r",
+									"pm.environment.set(\"id\", pm.response.json().user._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"{{FullName}}\",\r\n    \"mail\": \"{{Mail}}\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"{{Cpf}}\",\r\n    \"password\": \"{{Password}}\",\r\n    \"confirmPassword\": \"{{Password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('check fullName is true', function () {",
+									"    pm.expect(pm.environment.get('FullName')).to.eql(JSON.parse(responseBody).fullName);",
+									"})",
+									"",
+									"pm.test(\"Body contains _id\", function () {",
+									"    pm.expect(JSON.parse(responseBody)._id).to.exist;",
+									"})",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/{{id}}",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editing user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function firstName() {\r",
+									"\r",
+									"    let firstName = [ \"Karla\", \"Tathiane\", \"Wagner\", \"Uriel\",\"Maria\", \"Pablo\", \"João\", \"Yasmin\", \"Raissa\", \"Lais\",\"Alicia\", \"Luiz\", \"Maria\", \"Mary\",\"Liz\", \"Tadeu\",\"Luca\", \"Carlos\", \"Eduardo\", \"Felipe\", \"David\", \"Daniel\", \"Yuri\", \"Joaquim\", \"Eduardo\", \"Samuel\", \"Victor\", \"Leonardo\", \"Bruno\", \"Hugo\", \"Augusto\", \"André\", \"Tiago\", \"Calebe\", \"Igor\", \"Levi\", \"Alan\", \"Emanuel\", \"Aarão\", \"Luana\", \"Diana\", \"Marina\", \"Estela\", \"Lia\", \"Micaela\", \"Ariana\", \"Fernanda\", \"Emanuela\", \"Débora\", \"Anita\", \"Eva\", \"Joana\", \"Daniela\", \"Paloma\", \"Yara\", \"Juliana\"];\r",
+									"\r",
+									"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"FirtsName\", firstName());\r",
+									"\r",
+									"function lastName() {\r",
+									"\r",
+									"let lastName = [\"Cruz\", \"Penha\", \"Silva\", \"Pinheiro\",\"da Cruz\", \"Lima\", \"de Carvalho\", \"Araujo\", \"Deluca\", \"Alvez\", \"Luz\",\"Alvarenga\", \"Souza\", \"de Lima\", \"Almeida\", \"Barbosa\", \"Batista\",\" Castro\", \"Duarte\", \"Ferreira\", \"Garcia\", \"Gomes\", \"Lopes\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Rocha\", \"Rodriguez\", \"Santos\", \"Teixeira\", \"Vieira\", \"Soarez\", \"Santana\", \"Gonçalvez\", \"Ribeiro\", \"Ramos\", \"Costa\", \"Carvalho\", \"Martins\", \"Cardoso\", \"Freitas\", \"Mendes\", \"Machado\", \"Marques\", \"Nunes\", \"Moreira\",\"Andrade\", \"Dias\", \"Fernandes\"];\r",
+									"\r",
+									"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"LastName\", lastName());\r",
+									"\r",
+									"pm.environment.set(\"FullName\", pm.environment.get(\"FirtsName\") + \" \" + pm.environment.get(\"LastName\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de sucesso está presente\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Dados atualizados com sucesso!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Name editing is true\", function() {\r",
+									"    pm.expect(pm.response.json().updatedUser.fullName).to.eql(pm.environment.get(\"FullName\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fullName\": \"{{FullName}}\",\r\n  \"mail\": \"{{Mail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/{{id}}/",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"{{id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de sucesso está presente\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Senha atualizada com sucesso!\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"2234@Test\",\r\n  \"confirmPassword\": \"2234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/password/{{id}}",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"password",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status change",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de sucesso está presente\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Status do usuario atualizado com sucesso para status true.\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/status/{{id}}",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"status",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de sucesso está presente\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Usuário deletado com sucesso!.\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/{{id}}",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Company+",
+			"item": [
+				{
+					"name": "Count",
+					"item": [
+						{
+							"name": "count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"countcompany1\", pm.response.json().count);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}company/count/",
+									"host": [
+										"{{url}}company"
+									],
+									"path": [
+										"count",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create company count",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function corporateFirstName() {\r",
+											"\r",
+											"    let corporateFirstName = [ \"Padaria\", \"Pizzaria\", \"Mercadinho\", \"Peixaria\",\"Tabacaria\", \"Sorveteria\", \"Quitanda\", \"Pastelaria\", \"Frozen\", \"Pizzaria\",\"Rotiseria\", \"Rodizio\", \"Supermercado\", \"Drivein\",\"Lavanderia\", \"Informatica\",\"Transportadora\", \"Sapataria\", \"Hotelaria\", \"Tratoria\", \"Alvenaria\", \"Pintura\", \"Mecanica\", \"Joalheria\", \"Corretora\", \"Advocacia\" ];\r",
+											"\r",
+											"    let randomItem = corporateFirstName[Math.floor(Math.random() * corporateFirstName.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"CorporateFirstName\", corporateFirstName());\r",
+											"\r",
+											"function corporateLasttName() {\r",
+											"\r",
+											"let corporateLasttName = [\"Cruz\", \"Penha\", \"Silva\", \"Pinheiro\",\"da Cruz\", \"Lima\", \"de Carvalho\", \"Araujo\", \"Deluca\", \"Alvez\", \"Luz\",\"Alvarenga\", \"Souza\", \"de Lima\", \"Almeida\", \"Barbosa\", \"Batista\",\" Castro\", \"Duarte\", \"Ferreira\", \"Garcia\", \"Gomes\", \"Lopes\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Rocha\", \"Rodriguez\", \"Santos\", \"Teixeira\", \"Vieira\", \"Soarez\", \"Santana\", \"Gonçalvez\", \"Ribeiro\", \"Ramos\", \"Costa\", \"Carvalho\", \"Martins\", \"Cardoso\", \"Freitas\", \"Mendes\", \"Machado\", \"Marques\", \"Nunes\", \"Moreira\",\"Andrade\", \"Dias\", \"Fernandes\"];\r",
+											"\r",
+											"    let randomItem = corporateLasttName[Math.floor(Math.random() * corporateLasttName.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"CorporateLasttName\", corporateLasttName());\r",
+											"\r",
+											"pm.environment.set(\"CorporateName\", pm.environment.get(\"CorporateFirstName\") + \" \" + pm.environment.get(\"CorporateLasttName\"));\r",
+											"\r",
+											"var gerarCNPJString = '';\r",
+											"for (var i = 0; i < 14; i++) {\r",
+											"    gerarCNPJString += Math.floor(Math.random() * 10);\r",
+											"}\r",
+											"pm.environment.set(\"CNPJ\", gerarCNPJString);\r",
+											"\r",
+											"function providerMail() {\r",
+											"\r",
+											"    let providerMail = [\"@yahoo.com.br\", \"@gmail.com\", \"@outlook.com\", \"@hotmail.com\", \"@uol.com.br\", \"@terra.com\", \"@protonmail.com\", \"@mailbox.org\", \"@hobspot.com\", \"@posteo.com\", \"@privatemail.com\", \"@smartmail.com\", \"@hushmail.com\", \"@coutermail.com\", \"@mailfence.com\", \"@runbox.com\",\"@Kolabnow.com\"];\r",
+											"\r",
+											"    let randomItem = providerMail[Math.floor(Math.random() * providerMail.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"ProviderMail\", providerMail());\r",
+											"\r",
+											"pm.environment.set(\"CorporateMail\", pm.environment.get(\"CorporateFirstName\") + \"_\" + pm.variables.replaceIn('{{$timestamp}}') + pm.environment.get(\"ProviderMail\"));\r",
+											"\r",
+											"pm.environment.set('Matriz',pm.variables.replaceIn('{{$randomCity}}'))\r",
+											"\r",
+											"function responsibleContact() {\r",
+											"\r",
+											"    let responsibleContact = [ \"Karla\", \"Tathiane\", \"Wagner\", \"Uriel\",\"Maria\", \"Pablo\", \"João\", \"Yasmin\", \"Raissa\", \"Lais\",\"Alicia\", \"Luiz\", \"Maria\", \"Mary\",\"Liz\", \"Tadeu\",\"Luca\", \"Carlos\", \"Eduardo\", \"Felipe\", \"David\", \"Daniel\", \"Yuri\", \"Joaquim\", \"Eduardo\", \"Samuel\", \"Victor\", \"Leonardo\", \"Bruno\", \"Hugo\", \"Augusto\", \"André\", \"Tiago\", \"Calebe\", \"Igor\", \"Levi\", \"Alan\", \"Emanuel\", \"Aarão\", \"Luana\", \"Diana\", \"Marina\", \"Estela\", \"Lia\", \"Micaela\", \"Ariana\", \"Fernanda\", \"Emanuela\", \"Débora\", \"Anita\", \"Eva\", \"Joana\", \"Daniela\", \"Paloma\", \"Yara\", \"Juliana\"];\r",
+											"\r",
+											"    let randomItem = responsibleContact[Math.floor(Math.random() * responsibleContact.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"ResponsibleContact\", responsibleContact());\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"   pm.test(\"Check if status is 201\", function (){ pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check if corporateName true\", function(){\r",
+											"    pm.expect(pm.environment.get(\"CorporateName\")).to.eql(JSON.parse(responseBody).newCompany.corporateName);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check if registerCompany is true\", function (){\r",
+											"pm.expect(pm.environment.get(\"CNPJ\")).to.eql(JSON.parse(responseBody).newCompany.registerCompany);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check if mail true\", function(){\r",
+											"    pm.expect(pm.environment.get(\"CorporateMail\")).to.eql(JSON.parse(responseBody).newCompany.mail);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check if matriz is true\", function (){\r",
+											"    pm.expect(pm.environment.get(\"Matriz\")).to.eql(JSON.parse(responseBody).newCompany.matriz);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check if responsibleContact is true\", function(){pm.expect(pm.environment.get(\"ResponsibleContact\")).to.eql(JSON.parse(responseBody).newCompany.responsibleContact);\r",
+											"})\r",
+											"\r",
+											"pm.environment.set(\"company_id\", pm.response.json().newCompany._id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"corporateName\": \"{{CorporateName}}\",\r\n  \"registerCompany\": \"{{CNPJ}}\",\r\n  \"mail\": \"{{CorporateMail}}\",\r\n  \"matriz\": \"{{Matriz}}\",\r\n  \"responsibleContact\": \"{{ResponsibleContact}}\",\r\n  \"telephone\": \"99999999999999\",\r\n  \"serviceDescription\": \"Testes\",\r\n  \"address\": [\r\n    {\r\n      \"zipCode\": \"04777001\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"district\": \"Rua das Flores\",\r\n      \"street\": \"Avenida Interlagos\",\r\n      \"number\": \"50\",\r\n      \"complement\": \"de 4503 ao fim - lado ímpar\",\r\n      \"country\": \"Brasil\"\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}company/",
+									"host": [
+										"{{url}}company"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Count validator\", function(){\r",
+											"    let count = pm.variables.get(\"countcompany1\") + 1\r",
+											"    pm.expect(JSON.parse(responseBody).count).to.eql(count);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}company/count/",
+									"host": [
+										"{{url}}company"
+									],
+									"path": [
+										"count",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Companies list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if Companies are true\", function () {\r",
+									"    const corporateName = pm.response.json();\r",
+									"    pm.expect(corporateName.length).to.be.above(0);\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}company/",
+							"host": [
+								"{{url}}company"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create company",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function corporateFirstName() {\r",
+									"\r",
+									"    let corporateFirstName =  [ \"Padaria\", \"Pizzaria\", \"Mercadinho\", \"Peixaria\",\"Tabacaria\", \"Sorveteria\", \"Quitanda\", \"Pastelaria\", \"Frozen\", \"Pizzaria\",\"Rotiseria\", \"Rodizio\", \"Supermercado\", \"Drivein\",\"Lavanderia\", \"Informatica\",\"Transportadora\", \"Sapataria\", \"Hotelaria\", \"Tratoria\", \"Alvenaria\", \"Pintura\", \"Mecanica\", \"Joalheria\", \"Corretora\", \"Advocacia\" ];\r",
+									"\r",
+									"    let randomItem = corporateFirstName[Math.floor(Math.random() * corporateFirstName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"CorporateFirstName\", corporateFirstName());\r",
+									"\r",
+									"function corporateLasttName() {\r",
+									"\r",
+									"let corporateLasttName = [\"Cruz\", \"Penha\", \"Silva\", \"Pinheiro\",\"da Cruz\", \"Lima\", \"de Carvalho\", \"Araujo\", \"Deluca\", \"Alvez\", \"Luz\",\"Alvarenga\", \"Souza\", \"de Lima\", \"Almeida\", \"Barbosa\", \"Batista\",\" Castro\", \"Duarte\", \"Ferreira\", \"Garcia\", \"Gomes\", \"Lopes\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Rocha\", \"Rodriguez\", \"Santos\", \"Teixeira\", \"Vieira\", \"Soarez\", \"Santana\", \"Gonçalvez\", \"Ribeiro\", \"Ramos\", \"Costa\", \"Carvalho\", \"Martins\", \"Cardoso\", \"Freitas\", \"Mendes\", \"Machado\", \"Marques\", \"Nunes\", \"Moreira\",\"Andrade\", \"Dias\", \"Fernandes\"];\r",
+									"\r",
+									"    let randomItem = corporateLasttName[Math.floor(Math.random() * corporateLasttName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"CorporateLasttName\", corporateLasttName());\r",
+									"\r",
+									"pm.environment.set(\"CorporateName\", pm.environment.get(\"CorporateFirstName\") + \" \" + pm.environment.get(\"CorporateLasttName\"));\r",
+									"\r",
+									"var gerarCNPJString = '';\r",
+									"for (var i = 0; i < 14; i++) {\r",
+									"    gerarCNPJString += Math.floor(Math.random() * 10);\r",
+									"}\r",
+									"pm.environment.set(\"CNPJ\", gerarCNPJString);\r",
+									"\r",
+									"function providerMail() {\r",
+									"\r",
+									"    let providerMail = [\"@yahoo.com.br\", \"@gmail.com\", \"@outlook.com\", \"@hotmail.com\", \"@uol.com.br\", \"@terra.com\", \"@protonmail.com\", \"@mailbox.org\", \"@hobspot.com\", \"@posteo.com\", \"@privatemail.com\", \"@smartmail.com\", \"@hushmail.com\", \"@coutermail.com\", \"@mailfence.com\", \"@runbox.com\",\"@Kolabnow.com\"];\r",
+									"\r",
+									"    let randomItem = providerMail[Math.floor(Math.random() * providerMail.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"ProviderMail\", providerMail());\r",
+									"\r",
+									"pm.environment.set(\"CorporateMail\", pm.environment.get(\"CorporateFirstName\") + \"_\" + pm.variables.replaceIn('{{$timestamp}}') + pm.environment.get(\"ProviderMail\"));\r",
+									"\r",
+									"pm.environment.set('Matriz',pm.variables.replaceIn('{{$randomCity}}'))\r",
+									"\r",
+									"function responsibleContact() {\r",
+									"\r",
+									"    let responsibleContact = [ \"Karla\", \"Tathiane\", \"Wagner\", \"Uriel\",\"Maria\", \"Pablo\", \"João\", \"Yasmin\", \"Raissa\", \"Lais\",\"Alicia\", \"Luiz\", \"Maria\", \"Mary\",\"Liz\", \"Tadeu\",\"Luca\", \"Carlos\", \"Eduardo\", \"Felipe\", \"David\", \"Daniel\", \"Yuri\", \"Joaquim\", \"Eduardo\", \"Samuel\", \"Victor\", \"Leonardo\", \"Bruno\", \"Hugo\", \"Augusto\", \"André\", \"Tiago\", \"Calebe\", \"Igor\", \"Levi\", \"Alan\", \"Emanuel\", \"Aarão\", \"Luana\", \"Diana\", \"Marina\", \"Estela\", \"Lia\", \"Micaela\", \"Ariana\", \"Fernanda\", \"Emanuela\", \"Débora\", \"Anita\", \"Eva\", \"Joana\", \"Daniela\", \"Paloma\", \"Yara\", \"Juliana\"];\r",
+									"\r",
+									"    let randomItem = responsibleContact[Math.floor(Math.random() * responsibleContact.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"ResponsibleContact\", responsibleContact());\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"   pm.test(\"Check if status is 201\", function (){ pm.response.to.have.status(201);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if corporateName true\", function(){\r",
+									"    pm.expect(pm.environment.get(\"CorporateName\")).to.eql(JSON.parse(responseBody).newCompany.corporateName);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if registerCompany is true\", function (){\r",
+									"pm.expect(pm.environment.get(\"CNPJ\")).to.eql(JSON.parse(responseBody).newCompany.registerCompany);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if mail true\", function(){\r",
+									"    pm.expect(pm.environment.get(\"CorporateMail\")).to.eql(JSON.parse(responseBody).newCompany.mail);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if matriz is true\", function (){\r",
+									"    pm.expect(pm.environment.get(\"Matriz\")).to.eql(JSON.parse(responseBody).newCompany.matriz);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if responsibleContact is true\", function(){pm.expect(pm.environment.get(\"ResponsibleContact\")).to.eql(JSON.parse(responseBody).newCompany.responsibleContact);\r",
+									"})\r",
+									"\r",
+									"pm.environment.set(\"company_id\", pm.response.json().newCompany._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"corporateName\": \"{{CorporateName}}\",\r\n  \"registerCompany\": \"{{CNPJ}}\",\r\n  \"mail\": \"{{CorporateMail}}\",\r\n  \"matriz\": \"{{Matriz}}\",\r\n  \"responsibleContact\": \"{{ResponsibleContact}}\",\r\n  \"telephone\": \"99999999999999\",\r\n  \"serviceDescription\": \"Testes\",\r\n  \"address\": [\r\n    {\r\n      \"zipCode\": \"04777001\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"district\": \"Rua das Flores\",\r\n      \"street\": \"Avenida Interlagos\",\r\n      \"number\": \"50\",\r\n      \"complement\": \"de 4503 ao fim - lado ímpar\",\r\n      \"country\": \"Brasil\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}company/",
+							"host": [
+								"{{url}}company"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Starus code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Body contains company_id\", function () {\r",
+									"    pm.expect(pm.response.json()._id).to.exist;\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}company/{{company_id}}",
+							"host": [
+								"{{url}}company"
+							],
+							"path": [
+								"{{company_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editing company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check is edit company is true\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Companhia atualizada com sucesso.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if corporateName true\", function(){\r",
+									"    pm.expect(pm.environment.get(\"CorporateName\")).to.eql(JSON.parse(responseBody).updatedCompany.corporateName);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if registerCompany is true\", function (){\r",
+									"pm.expect(pm.environment.get(\"CNPJ\")).to.eql(JSON.parse(responseBody).updatedCompany.registerCompany);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if mail true\", function(){\r",
+									"    pm.expect(pm.environment.get(\"CorporateMail\")).to.eql(JSON.parse(responseBody).updatedCompany.mail);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if responsibleContact is true\", function(){pm.expect(pm.environment.get(\"ResponsibleContact\")).to.eql(JSON.parse(responseBody).updatedCompany.responsibleContact);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function corporateFirstName() {\r",
+									"\r",
+									"    let corporateFirstName =  [ \"Padaria\", \"Pizzaria\", \"Mercadinho\", \"Peixaria\",\"Tabacaria\", \"Sorveteria\", \"Quitanda\", \"Pastelaria\", \"Frozen\", \"Pizzaria\",\"Rotiseria\", \"Rodizio\", \"Supermercado\", \"Drivein\",\"Lavanderia\", \"Informatica\",\"Transportadora\", \"Sapataria\", \"Hotelaria\", \"Tratoria\", \"Alvenaria\", \"Pintura\", \"Mecanica\", \"Joalheria\", \"Corretora\", \"Advocacia\" ];\r",
+									"\r",
+									"    let randomItem = corporateFirstName[Math.floor(Math.random() * corporateFirstName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"CorporateFirstName\", corporateFirstName());\r",
+									"\r",
+									"function corporateLasttName() {\r",
+									"\r",
+									"let corporateLasttName = [\"Cruz\", \"Penha\", \"Silva\", \"Pinheiro\",\"da Cruz\", \"Lima\", \"de Carvalho\", \"Araujo\", \"Deluca\", \"Alvez\", \"Luz\",\"Alvarenga\", \"Souza\", \"de Lima\", \"Almeida\", \"Barbosa\", \"Batista\",\" Castro\", \"Duarte\", \"Ferreira\", \"Garcia\", \"Gomes\", \"Lopes\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Rocha\", \"Rodriguez\", \"Santos\", \"Teixeira\", \"Vieira\", \"Soarez\", \"Santana\", \"Gonçalvez\", \"Ribeiro\", \"Ramos\", \"Costa\", \"Carvalho\", \"Martins\", \"Cardoso\", \"Freitas\", \"Mendes\", \"Machado\", \"Marques\", \"Nunes\", \"Moreira\",\"Andrade\", \"Dias\", \"Fernandes\"];\r",
+									"\r",
+									"    let randomItem = corporateLasttName[Math.floor(Math.random() * corporateLasttName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"CorporateLasttName\", corporateLasttName());\r",
+									"\r",
+									"pm.environment.set(\"CorporateName\", pm.environment.get(\"CorporateFirstName\") + \" \" + pm.environment.get(\"CorporateLasttName\"));\r",
+									"\r",
+									"var gerarCNPJString = '';\r",
+									"for (var i = 0; i < 14; i++) {\r",
+									"    gerarCNPJString += Math.floor(Math.random() * 10);\r",
+									"}\r",
+									"pm.environment.set(\"CNPJ\", gerarCNPJString);\r",
+									"\r",
+									"function providerMail() {\r",
+									"\r",
+									"    let providerMail = [\"@yahoo.com.br\", \"@gmail.com\", \"@outlook.com\", \"@hotmail.com\", \"@uol.com.br\", \"@terra.com\", \"@protonmail.com\", \"@mailbox.org\", \"@hobspot.com\", \"@posteo.com\", \"@privatemail.com\", \"@smartmail.com\", \"@hushmail.com\", \"@coutermail.com\", \"@mailfence.com\", \"@runbox.com\",\"@Kolabnow.com\"];\r",
+									"\r",
+									"    let randomItem = providerMail[Math.floor(Math.random() * providerMail.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"ProviderMail\", providerMail());\r",
+									"\r",
+									"pm.environment.set(\"CorporateMail\", pm.environment.get(\"CorporateFirstName\") + \"_\" + pm.variables.replaceIn('{{$timestamp}}') + pm.environment.get(\"ProviderMail\"));\r",
+									"\r",
+									"function responsibleContact() {\r",
+									"\r",
+									"    let responsibleContact = [ \"Karla\", \"Tathiane\", \"Wagner\", \"Uriel\",\"Maria\", \"Pablo\", \"João\", \"Yasmin\", \"Raissa\", \"Lais\",\"Alicia\", \"Luiz\", \"Maria\", \"Mary\",\"Liz\", \"Tadeu\",\"Luca\", \"Carlos\", \"Eduardo\", \"Felipe\", \"David\", \"Daniel\", \"Yuri\", \"Joaquim\", \"Eduardo\", \"Samuel\", \"Victor\", \"Leonardo\", \"Bruno\", \"Hugo\", \"Augusto\", \"André\", \"Tiago\", \"Calebe\", \"Igor\", \"Levi\", \"Alan\", \"Emanuel\", \"Aarão\", \"Luana\", \"Diana\", \"Marina\", \"Estela\", \"Lia\", \"Micaela\", \"Ariana\", \"Fernanda\", \"Emanuela\", \"Débora\", \"Anita\", \"Eva\", \"Joana\", \"Daniela\", \"Paloma\", \"Yara\", \"Juliana\"];\r",
+									"\r",
+									"    let randomItem = responsibleContact[Math.floor(Math.random() * responsibleContact.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"ResponsibleContact\", responsibleContact());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"corporateName\": \"{{CorporateName}}\",\r\n  \"registerCompany\": \"{{CNPJ}}\",\r\n  \"mail\": \"{{CorporateMail}}\",\r\n  \"matriz\": \"Teste\",\r\n  \"responsibleContact\": \"{{ResponsibleContact}}\",\r\n  \"telephone\": \"99999999999988\",\r\n  \"serviceDescription\": \"Testes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}company/{{company_id}}",
+							"host": [
+								"{{url}}company"
+							],
+							"path": [
+								"{{company_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editing companies addess*",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check is edit company's address is true\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Endereço da companhia atualizado com sucesso.\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"address\": [\r\n    {\r\n      \"zipCode\": \"04777101\",\r\n      \"city\": \"Rio de Janeiro\",\r\n      \"state\": \"RJ\",\r\n      \"district\": \"Rua das Flores\",\r\n      \"street\": \"Avenida Interlagos\",\r\n      \"number\": \"50\",\r\n      \"complement\": \"de 4503 ao fim - lado ímpar\",\r\n      \"country\": \"Brasil\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}company/address/{{company_id}}",
+							"host": [
+								"{{url}}company"
+							],
+							"path": [
+								"address",
+								"{{company_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status change",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if status is false\", function () {\r",
+									"    var responseBody = pm.response.json();\r",
+									"    pm.expect(responseBody.updateCompany.status).to.equal(false);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if company'status change\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Status da companhia atualizado com sucesso.\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}company/status/{{company_id}}",
+							"host": [
+								"{{url}}company"
+							],
+							"path": [
+								"status",
+								"{{company_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if company is deleted\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Companhia deletado com sucesso.\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}company/{{company_id}}",
+							"host": [
+								"{{url}}company"
+							],
+							"path": [
+								"{{company_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Board+",
+			"item": [
+				{
+					"name": "Count board",
+					"item": [
+						{
+							"name": "count1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"count1\", pm.response.json().count);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}board/count/",
+									"host": [
+										"{{url}}board"
+									],
+									"path": [
+										"count",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create board count",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function diretoriaName() {\r",
+											"\r",
+											"    let diretoriaName = [ \"Marketing\", \"Operações\", \"Executivo\", \"Tecnologia\",\"TI\", \"Receita\", \"Financeiro\"];\r",
+											"\r",
+											"    let randomItem = diretoriaName[Math.floor(Math.random() * diretoriaName.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"pm.environment.set(\"DiretoriaName\", diretoriaName());\r",
+											"\r",
+											"pm.environment.set(\"BoardName\", pm.environment.get(\"DiretoriaName\") + \"&\" + pm.variables.replaceIn('{{$randomLocale}}'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('status code is 201', function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check if boardName true\", function(){\r",
+											"    pm.expect(pm.environment.get(\"BoardName\")).to.eql(JSON.parse(responseBody).newBoard.boardName);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"boardName\": \"{{BoardName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}board/",
+									"host": [
+										"{{url}}board"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Count validator\", function(){\r",
+											"    let count = pm.variables.get(\"count1\") + 1\r",
+											"    pm.expect(JSON.parse(responseBody).count).to.eql(count);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}board/count",
+									"host": [
+										"{{url}}board"
+									],
+									"path": [
+										"count"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Boards list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if Boards are listed\", function () {\r",
+									"    const boardName = pm.response.json();\r",
+									"       pm.expect(boardName.length).to.be.above(0);\r",
+									"    });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}board/",
+							"host": [
+								"{{url}}board"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('status code is 201', function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if boardName true\", function(){\r",
+									"    pm.expect(pm.environment.get(\"BoardName\")).to.eql(JSON.parse(responseBody).newBoard.boardName);\r",
+									"})\r",
+									"\r",
+									"pm.environment.set(\"board_id\", pm.response.json().newBoard._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function diretoriaName() {\r",
+									"\r",
+									"    let diretoriaName = [ \"Marketing\", \"Operações\", \"Executivo\", \"Tecnologia\",\"TI\", \"Receita\", \"Financeiro\"];\r",
+									"\r",
+									"    let randomItem = diretoriaName[Math.floor(Math.random() * diretoriaName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"pm.environment.set(\"DiretoriaName\", diretoriaName());\r",
+									"\r",
+									"pm.environment.set(\"BoardName\", pm.environment.get(\"DiretoriaName\") + \"&\" + pm.variables.replaceIn('{{$randomLocale}}'));\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"boardName\": \"{{BoardName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}board/",
+							"host": [
+								"{{url}}board"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body contains board._id\", function(){\r",
+									"    pm.expect(JSON.parse(responseBody).board._id).to.exist;\r",
+									"}) "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}board/{{board_id}}",
+							"host": [
+								"{{url}}board"
+							],
+							"path": [
+								"{{board_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editing board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if edit board message is true\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro atualizado com sucesso.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if boardName true\", function(){\r",
+									"    pm.expect(pm.environment.get(\"BoardName\")).to.eql(JSON.parse(responseBody).updatedBoard.boardName);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function diretoriaName() {\r",
+									"\r",
+									"    let diretoriaName = [ \"Marketing\", \"Operações\", \"Executivo\", \"Tecnologia\",\"TI\", \"Receita\", \"Financeiro\"];\r",
+									"\r",
+									"    let randomItem = diretoriaName[Math.floor(Math.random() * diretoriaName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"pm.environment.set(\"DiretoriaName\", diretoriaName());\r",
+									"\r",
+									"pm.environment.set(\"BoardName\", pm.environment.get(\"DiretoriaName\") + \"&\" + pm.variables.replaceIn('{{$randomLocale}}'));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"boardName\": \"{{BoardName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}board/{{board_id}}",
+							"host": [
+								"{{url}}board"
+							],
+							"path": [
+								"{{board_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CostCenter+",
+			"item": [
+				{
+					"name": "Count",
+					"item": [
+						{
+							"name": "count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"countCostCenter1\", pm.response.json().count);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}costCenter/count/",
+									"host": [
+										"{{url}}costCenter"
+									],
+									"path": [
+										"count",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create costCenter count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('status code is 201', function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check if costCenterName true\", function(){\r",
+											"    pm.expect(pm.environment.get(\"CostCenterName\")).to.eql(JSON.parse(responseBody).newCostCenter.costCenterName);\r",
+											"})\r",
+											"pm.environment.set(\"costCenter_id\", pm.response.json().newCostCenter._id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function centrodecustoName() {\r",
+											"\r",
+											"    let centrodecustoName = [ \"Admin\", \"Financeiro\", \"Ti\", \"Controladoria\", \"Administrador\", \"Guest\", \"Master\", \"Gestor\", \"Rh\", \"Contador\", \"Recepcionista\", \"Responsável Financeiro\"];\r",
+											"\r",
+											"    let randomItem = centrodecustoName[Math.floor(Math.random() * centrodecustoName.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"pm.environment.set(\"CentrodecustoName\", centrodecustoName());\r",
+											"\r",
+											"pm.environment.set(\"CostCenterName\", pm.environment.get(\"CentrodecustoName\") + \"&\" + pm.variables.replaceIn('{{$randomLocale}}'));\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"costCenterName\": \"{{CostCenterName}}\",\r\n  \"boardId\": \"{{board_id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}CostCenter/",
+									"host": [
+										"{{url}}CostCenter"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Count validator\", function(){\r",
+											"    let count = pm.variables.get(\"countCostCenter1\") + 1\r",
+											"    pm.expect(JSON.parse(responseBody).count).to.eql(count);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}costCenter/count/",
+									"host": [
+										"{{url}}costCenter"
+									],
+									"path": [
+										"count",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CostCenters list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if CostCenters are listed\", function () {\r",
+									"    const costCenterName = pm.response.json();\r",
+									"       pm.expect(costCenterName.length).to.be.above(0);\r",
+									"    });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}CostCenter/",
+							"host": [
+								"{{url}}CostCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create costCenter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('status code is 201', function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if costCenterName true\", function(){\r",
+									"    pm.expect(pm.environment.get(\"CostCenterName\")).to.eql(JSON.parse(responseBody).newCostCenter.costCenterName);\r",
+									"})\r",
+									"pm.environment.set(\"costCenter_id\", pm.response.json().newCostCenter._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function centrodecustoName() {\r",
+									"\r",
+									"    let centrodecustoName = [ \"Admin\", \"Financeiro\", \"Ti\", \"Controladoria\", \"Administrador\", \"Guest\", \"Master\", \"Gestor\", \"Rh\", \"Contador\", \"Recepcionista\", \"Responsável Financeiro\"];\r",
+									"\r",
+									"    let randomItem = centrodecustoName[Math.floor(Math.random() * centrodecustoName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"pm.environment.set(\"CentrodecustoName\", centrodecustoName());\r",
+									"\r",
+									"pm.environment.set(\"CostCenterName\", pm.environment.get(\"CentrodecustoName\") + \"&\" + pm.variables.replaceIn('{{$randomLocale}}'));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"{{CostCenterName}}\",\r\n  \"boardId\": \"{{board_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}CostCenter/",
+							"host": [
+								"{{url}}CostCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show costCenter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body contains costCenter._id\", function(){\r",
+									"    pm.expect(JSON.parse(responseBody).costCenter._id).to.exist;\r",
+									"}) "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}CostCenter/{{costCenter_id}}",
+							"host": [
+								"{{url}}CostCenter"
+							],
+							"path": [
+								"{{costCenter_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editing costCenter",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function departamentoName() {\r",
+									"\r",
+									"    let departamentoName = [ \"Admin\", \"Financeiro\", \"Ti\", \"Controladoria\", \"Administrador\", \"Guest\", \"Master\", \"Gestor\", \"Rh\", \"Contador\", \"Recepcionista\", \"Responsável Financeiro\"];\r",
+									"\r",
+									"    let randomItem = departamentoName[Math.floor(Math.random() * departamentoName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"pm.environment.set(\"DepartamentoName\", departamentoName());\r",
+									"\r",
+									"pm.environment.set(\"CostCenterName\", pm.environment.get(\"DepartamentoName\") + \"&\" + pm.variables.replaceIn('{{$randomLocale}}'));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if edit costCenter is true\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro atualizado com sucesso.\");\r",
+									"});\r",
+									"pm.test(\"Name editing is true\", function() {\r",
+									"    pm.expect(pm.response.json().updatedCostCenter.costCenterName).to.eql(pm.environment.get(\"CostCenterName\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"{{CostCenterName}}\",\r\n  \"boardId\": \"{{board_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}CostCenter/{{costCenter_id}}",
+							"host": [
+								"{{url}}CostCenter"
+							],
+							"path": [
+								"{{costCenter_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status change",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 202', function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"})\r",
+									"\r",
+									"pm.test('Check if status change is true', function () {\r",
+									"    pm.expect(pm.response.text()).to.include('Centro de custos inativado com sucesso!');\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}CostCenter/status/{{costCenter_id}}",
+							"host": [
+								"{{url}}CostCenter"
+							],
+							"path": [
+								"status",
+								"{{costCenter_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Department??",
+			"item": [
+				{
+					"name": "Count Copy",
+					"item": [
+						{
+							"name": "count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"countDepartment1\", pm.response.json().count);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}department/count/",
+									"host": [
+										"{{url}}department"
+									],
+									"path": [
+										"count",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create department count",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function departamentoName() {\r",
+											"\r",
+											"    let departamentoName = [ \"Admin\", \"Financeiro\", \"Ti\", \"Controladoria\", \"Administrador\", \"Guest\", \"Master\", \"Gestor\", \"Rh\", \"Contador\", \"Recepcionista\", \"Responsável Financeiro\"];\r",
+											"\r",
+											"    let randomItem = departamentoName[Math.floor(Math.random() * departamentoName.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"pm.environment.set(\"DepartamentoName\", departamentoName());\r",
+											"\r",
+											"pm.environment.set(\"DepartmentName\", pm.environment.get(\"DepartamentoName\") + \"&\" + pm.variables.replaceIn('{{$randomLocale}}'));\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('status code is 201', function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check if departmentName true\", function(){\r",
+											"    pm.expect(pm.environment.get(\"DepartmentName\")).to.eql(JSON.parse(responseBody).newDepartment.departmentName);\r",
+											"})\r",
+											"pm.environment.set(\"department_id\", pm.response.json().department_id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"departmentName\": \"{{DepartmentName}}\",\r\n  \"costCenterId\": \"{{costCenter_id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}department/",
+									"host": [
+										"{{url}}department"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Count validator\", function(){\r",
+											"    let count = pm.variables.get(\"countDepartment1\") + 1\r",
+											"    pm.expect(JSON.parse(responseBody).count).to.eql(count);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}department/count/",
+									"host": [
+										"{{url}}department"
+									],
+									"path": [
+										"count",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Departments list*",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if Departments are listed\", function () {\r",
+									"    const departmentName = pm.response.json();\r",
+									"       pm.expect(departmentName.length).to.be.above(0);\r",
+									"    });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}department/",
+							"host": [
+								"{{url}}department"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create department*",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function departamentoName() {\r",
+									"\r",
+									"    let departamentoName = [ \"Admin\", \"Financeiro\", \"Ti\", \"Controladoria\", \"Administrador\", \"Guest\", \"Master\", \"Gestor\", \"Rh\", \"Contador\", \"Recepcionista\", \"Responsável Financeiro\"];\r",
+									"\r",
+									"    let randomItem = departamentoName[Math.floor(Math.random() * departamentoName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"pm.environment.set(\"DepartamentoName\", departamentoName());\r",
+									"\r",
+									"pm.environment.set(\"DepartmentName\", pm.environment.get(\"DepartamentoName\") + \"&\" + pm.variables.replaceIn('{{$randomLocale}}'));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('status code is 201', function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if departmentName true\", function(){\r",
+									"    pm.expect(pm.environment.get(\"DepartmentName\")).to.eql(JSON.parse(responseBody).newDepartment.departmentName);\r",
+									"})\r",
+									"pm.environment.set(\"department_id\", pm.response.json().newDepartment._id);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"departmentName\": \"{{DepartmentName}}\",\r\n  \"costCenterId\": \"{{costCenter_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}department/",
+							"host": [
+								"{{url}}department"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show department*",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check departmentName is true\", function () {\r",
+									"    pm.expect(pm.variables.get(\"DepartmentName\")).to.eql(JSON.parse(responseBody).department.departmentName);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Body contains _id\", function () {\r",
+									"    pm.expect(JSON.parse(responseBody).department._id).to.exist;\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}department/{{department_id}}",
+							"host": [
+								"{{url}}department"
+							],
+							"path": [
+								"{{department_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editing department*",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function departamentoName() {\r",
+									"\r",
+									"    let departamentoName = [ \"Admin\", \"Financeiro\", \"Ti\", \"Controladoria\", \"Administrador\", \"Guest\", \"Master\", \"Gestor\", \"Rh\", \"Contador\", \"Recepcionista\", \"Responsável Financeiro\"];\r",
+									"\r",
+									"    let randomItem = departamentoName[Math.floor(Math.random() * departamentoName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"pm.environment.set(\"DepartamentoName\", departamentoName());\r",
+									"\r",
+									"pm.environment.set(\"DepartmentName\", pm.environment.get(\"DepartamentoName\") + \"&\" + pm.variables.replaceIn('{{$randomLocale}}'));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de sucesso está presente\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro atualizado com sucesso.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Name editing is true\", function() {\r",
+									"    pm.expect(pm.response.json().updatedDepartment.departmentName).to.eql(pm.environment.get(\"DepartmentName\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"departmentName\": \"{{DepartmentName}}\",\r\n  \"costCenterId\": \"{{costCenter_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}department/{{department_id}}",
+							"host": [
+								"{{url}}department"
+							],
+							"path": [
+								"{{department_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status change???",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}department/status/{{department_id}}",
+							"host": [
+								"{{url}}department"
+							],
+							"path": [
+								"status",
+								"{{department_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "Count *",
+					"item": [
+						{
+							"name": "count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"countClient1\", pm.response.json().count);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}client/count/",
+									"host": [
+										"{{url}}client"
+									],
+									"path": [
+										"count",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create client? Count",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function firstName() {\r",
+											"\r",
+											"    let firstName = [ \"Karla\", \"Tathiane\", \"Wagner\", \"Uriel\",\"Maria\", \"Pablo\", \"João\", \"Yasmin\", \"Raissa\", \"Lais\",\"Alicia\", \"Luiz\", \"Maria\", \"Mary\",\"Liz\", \"Tadeu\",\"Luca\", \"Carlos\", \"Eduardo\", \"Felipe\", \"David\", \"Daniel\", \"Yuri\", \"Joaquim\", \"Eduardo\", \"Samuel\", \"Victor\", \"Leonardo\", \"Bruno\", \"Hugo\", \"Augusto\", \"André\", \"Tiago\", \"Calebe\", \"Igor\", \"Levi\", \"Alan\", \"Emanuel\", \"Aarão\", \"Luana\", \"Diana\", \"Marina\", \"Estela\", \"Lia\", \"Micaela\", \"Ariana\", \"Fernanda\", \"Emanuela\", \"Débora\", \"Anita\", \"Eva\", \"Joana\", \"Daniela\", \"Paloma\", \"Yara\", \"Juliana\"];\r",
+											"\r",
+											"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"FirtsName\", firstName());\r",
+											"\r",
+											"function lastName() {\r",
+											"\r",
+											"let lastName = [\"Cruz\", \"Penha\", \"Silva\", \"Pinheiro\",\"da Cruz\", \"Lima\", \"de Carvalho\", \"Araujo\", \"Deluca\", \"Alvez\", \"Luz\",\"Alvarenga\", \"Souza\", \"de Lima\", \"Almeida\", \"Barbosa\", \"Batista\",\" Castro\", \"Duarte\", \"Ferreira\", \"Garcia\", \"Gomes\", \"Lopes\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Rocha\", \"Rodriguez\", \"Santos\", \"Teixeira\", \"Vieira\", \"Soarez\", \"Santana\", \"Gonçalvez\", \"Ribeiro\", \"Ramos\", \"Costa\", \"Carvalho\", \"Martins\", \"Cardoso\", \"Freitas\", \"Mendes\", \"Machado\", \"Marques\", \"Nunes\", \"Moreira\",\"Andrade\", \"Dias\", \"Fernandes\"];\r",
+											"\r",
+											"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"LastName\", lastName());\r",
+											"\r",
+											"pm.environment.set(\"FullName\", pm.environment.get(\"FirtsName\") + \" \" + pm.environment.get(\"LastName\"));\r",
+											"\r",
+											"function providerMail() {\r",
+											"\r",
+											"    let providerMail = [\"@yahoo.com.br\", \"@gmail.com\", \"@outlook.com\", \"@hotmail.com\", \"@uol.com.br\", \"@terra.com\", \"@protonmail.com\", \"@mailbox.org\", \"@hobspot.com\", \"@posteo.com\", \"@privatemail.com\", \"@smartmail.com\", \"@hushmail.com\", \"@coutermail.com\", \"@mailfence.com\", \"@runbox.com\",\"@Kolabnow.com\"];\r",
+											"\r",
+											"    let randomItem = providerMail[Math.floor(Math.random() * providerMail.length)];\r",
+											"\r",
+											"    return randomItem\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"ProviderMail\", providerMail());\r",
+											"\r",
+											"pm.environment.set(\"Mail\", pm.environment.get(\"FirtsName\") + \"_\" + pm.variables.replaceIn('{{$timestamp}}') + pm.environment.get(\"ProviderMail\"));\r",
+											"\r",
+											"function gerarCPF() {\r",
+											"    let num = Math.floor(Math.random() * 999999999);\r",
+											"    let cpf = num.toString().padStart(9, '0');\r",
+											"    cpf += calcularDigito(cpf);\r",
+											"    cpf += calcularDigito(cpf);\r",
+											" \r",
+											"    return cpf;\r",
+											"}\r",
+											" \r",
+											"function calcularDigito(cpf) {\r",
+											"    let soma = 0;\r",
+											"    for (let i = 0; i < cpf.length; i++) {\r",
+											"        soma += parseInt(cpf[i]) * ((cpf.length + 1) - i);\r",
+											"    }\r",
+											"    let resto = (soma * 10) % 11;\r",
+											"    return (resto > 9) ? '0' : resto.toString();\r",
+											"}\r",
+											" \r",
+											"pm.environment.set(\"Cpf\", gerarCPF());\r",
+											"\r",
+											"function gerarRG() {\r",
+											"    let num = Math.floor(Math.random() * 99999);\r",
+											"    let rg = num.toString().padStart(5, '0');\r",
+											"    rg += calcularDigito(rg);\r",
+											"    rg += calcularDigito(rg);\r",
+											" \r",
+											"    return rg;\r",
+											"}\r",
+											" \r",
+											"function calcularDigito(rg) {\r",
+											"    let soma = 0;\r",
+											"    for (let i = 0; i < rg.length; i++) {\r",
+											"        soma += parseInt(rg[i]) * ((rg.length + 1) - i);\r",
+											"    }\r",
+											"    let resto = (soma * 10) % 11;\r",
+											"    return (resto > 9) ? '0' : resto.toString();\r",
+											"}\r",
+											" \r",
+											"pm.environment.set(\"RG\", gerarRG());\r",
+											"\r",
+											"var gerarPhoneString = '';\r",
+											"for (var i = 0; i < 13; i++) {\r",
+											"    gerarPhoneString += Math.floor(Math.random() * 10);\r",
+											"}\r",
+											"pm.environment.set(\"Phone\", gerarPhoneString);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 201', function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"})\r",
+											"\r",
+											"pm.test('Check if fullName true', function () {\r",
+											"    pm.expect(JSON.parse(responseBody).fullName).to.eql(pm.environment.get('FullName'));\r",
+											"})\r",
+											"\r",
+											"pm.test('Check if mail true', function () {\r",
+											"    pm.expect(JSON.parse(responseBody).mail).to.eql(pm.environment.get('Mail'));\r",
+											"})\r",
+											"\r",
+											"pm.test('Check if phone is true', function () {\r",
+											"    pm.expect(JSON.parse(responseBody).phone).to.eql(pm.environment.get('Phone'));\r",
+											"})\r",
+											"\r",
+											"pm.test('Check if rg is true', function () {\r",
+											"    pm.expect(JSON.parse(responseBody).rg).to.eql(pm.environment.get(\"RG\"));\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check if cpf is true\", function () { \r",
+											"    pm.expect(JSON.parse(responseBody).cpf).to.eql(pm.environment.get(\"Cpf\"));\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fullName\": \"{{FullName}}\",\r\n  \"birthDate\": \"24082023\",\r\n  \"mail\": \"{{Mail}}\",\r\n  \"phone\": \"{{Phone}}\",\r\n  \"currentRole\": \"ADMIN\",\r\n  \"documents\": [\r\n    {\r\n      \"rg\": \"{{RG}}\",\r\n      \"cpf\": \"{{Cpf}}\"\r\n    }\r\n  ],\r\n  \"address\": [\r\n    {\r\n      \"country\": \"Brasil\",\r\n      \"zipCode\": \"61025639\",\r\n      \"city\": \"Belém\",\r\n      \"state\": \"PA\",\r\n      \"district\": \"São Brás\",\r\n      \"street\": \"Rua 3 de Maio\",\r\n      \"number\": \"27\",\r\n      \"complement\": \"Hospital do Coração\"\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}client/",
+									"host": [
+										"{{url}}client"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Count validator\", function(){\r",
+											"    let count = pm.variables.get(\"countClient1\") + 1\r",
+											"    pm.expect(JSON.parse(responseBody).count).to.eql(count);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}client/count/",
+									"host": [
+										"{{url}}client"
+									],
+									"path": [
+										"count",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Clients list*",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if clients are true\", function () {\r",
+									"    const fullName = pm.response.json();\r",
+									"           pm.expect(fullName.clients.length).to.be.above(0);\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}client/",
+							"host": [
+								"{{url}}client"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create client?",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function firstName() {\r",
+									"\r",
+									"    let firstName = [ \"Karla\", \"Tathiane\", \"Wagner\", \"Uriel\",\"Maria\", \"Pablo\", \"João\", \"Yasmin\", \"Raissa\", \"Lais\",\"Alicia\", \"Luiz\", \"Maria\", \"Mary\",\"Liz\", \"Tadeu\",\"Luca\", \"Carlos\", \"Eduardo\", \"Felipe\", \"David\", \"Daniel\", \"Yuri\", \"Joaquim\", \"Eduardo\", \"Samuel\", \"Victor\", \"Leonardo\", \"Bruno\", \"Hugo\", \"Augusto\", \"André\", \"Tiago\", \"Calebe\", \"Igor\", \"Levi\", \"Alan\", \"Emanuel\", \"Aarão\", \"Luana\", \"Diana\", \"Marina\", \"Estela\", \"Lia\", \"Micaela\", \"Ariana\", \"Fernanda\", \"Emanuela\", \"Débora\", \"Anita\", \"Eva\", \"Joana\", \"Daniela\", \"Paloma\", \"Yara\", \"Juliana\"];\r",
+									"\r",
+									"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"FirtsName\", firstName());\r",
+									"\r",
+									"function lastName() {\r",
+									"\r",
+									"let lastName = [\"Cruz\", \"Penha\", \"Silva\", \"Pinheiro\",\"da Cruz\", \"Lima\", \"de Carvalho\", \"Araujo\", \"Deluca\", \"Alvez\", \"Luz\",\"Alvarenga\", \"Souza\", \"de Lima\", \"Almeida\", \"Barbosa\", \"Batista\",\" Castro\", \"Duarte\", \"Ferreira\", \"Garcia\", \"Gomes\", \"Lopes\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Rocha\", \"Rodriguez\", \"Santos\", \"Teixeira\", \"Vieira\", \"Soarez\", \"Santana\", \"Gonçalvez\", \"Ribeiro\", \"Ramos\", \"Costa\", \"Carvalho\", \"Martins\", \"Cardoso\", \"Freitas\", \"Mendes\", \"Machado\", \"Marques\", \"Nunes\", \"Moreira\",\"Andrade\", \"Dias\", \"Fernandes\"];\r",
+									"\r",
+									"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"LastName\", lastName());\r",
+									"\r",
+									"pm.environment.set(\"FullName\", pm.environment.get(\"FirtsName\") + \" \" + pm.environment.get(\"LastName\"));\r",
+									"\r",
+									"function providerMail() {\r",
+									"\r",
+									"    let providerMail = [\"@yahoo.com.br\", \"@gmail.com\", \"@outlook.com\", \"@hotmail.com\", \"@uol.com.br\", \"@terra.com\", \"@protonmail.com\", \"@mailbox.org\", \"@hobspot.com\", \"@posteo.com\", \"@privatemail.com\", \"@smartmail.com\", \"@hushmail.com\", \"@coutermail.com\", \"@mailfence.com\", \"@runbox.com\",\"@Kolabnow.com\"];\r",
+									"\r",
+									"    let randomItem = providerMail[Math.floor(Math.random() * providerMail.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"ProviderMail\", providerMail());\r",
+									"\r",
+									"pm.environment.set(\"Mail\", pm.environment.get(\"FirtsName\") + \"_\" + pm.variables.replaceIn('{{$timestamp}}') + pm.environment.get(\"ProviderMail\"));\r",
+									"\r",
+									"function gerarCPF() {\r",
+									"    let num = Math.floor(Math.random() * 999999999);\r",
+									"    let cpf = num.toString().padStart(9, '0');\r",
+									"    cpf += calcularDigito(cpf);\r",
+									"    cpf += calcularDigito(cpf);\r",
+									" \r",
+									"    return cpf;\r",
+									"}\r",
+									" \r",
+									"function calcularDigito(cpf) {\r",
+									"    let soma = 0;\r",
+									"    for (let i = 0; i < cpf.length; i++) {\r",
+									"        soma += parseInt(cpf[i]) * ((cpf.length + 1) - i);\r",
+									"    }\r",
+									"    let resto = (soma * 10) % 11;\r",
+									"    return (resto > 9) ? '0' : resto.toString();\r",
+									"}\r",
+									" \r",
+									"pm.environment.set(\"Cpf\", gerarCPF());\r",
+									"\r",
+									"function gerarRG() {\r",
+									"    let num = Math.floor(Math.random() * 99999);\r",
+									"    let rg = num.toString().padStart(5, '0');\r",
+									"    rg += calcularDigito(rg);\r",
+									"    rg += calcularDigito(rg);\r",
+									" \r",
+									"    return rg;\r",
+									"}\r",
+									" \r",
+									"function calcularDigito(rg) {\r",
+									"    let soma = 0;\r",
+									"    for (let i = 0; i < rg.length; i++) {\r",
+									"        soma += parseInt(rg[i]) * ((rg.length + 1) - i);\r",
+									"    }\r",
+									"    let resto = (soma * 10) % 11;\r",
+									"    return (resto > 9) ? '0' : resto.toString();\r",
+									"}\r",
+									" \r",
+									"pm.environment.set(\"RG\", gerarRG());\r",
+									"\r",
+									"var gerarPhoneString = '';\r",
+									"for (var i = 0; i < 13; i++) {\r",
+									"    gerarPhoneString += Math.floor(Math.random() * 10);\r",
+									"}\r",
+									"pm.environment.set(\"Phone\", gerarPhoneString);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 201', function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									"\r",
+									"pm.test('Check if fullName true', function () {\r",
+									"    pm.expect(JSON.parse(responseBody).fullName).to.eql(pm.environment.get('FullName'));\r",
+									"})\r",
+									"\r",
+									"pm.test('Check if mail true', function () {\r",
+									"    pm.expect(JSON.parse(responseBody).mail).to.eql(pm.environment.get('Mail'));\r",
+									"})\r",
+									"\r",
+									"pm.test('Check if phone is true', function () {\r",
+									"    pm.expect(JSON.parse(responseBody).phone).to.eql(pm.environment.get('Phone'));\r",
+									"})\r",
+									"\r",
+									"pm.test('Check if rg is true', function () {\r",
+									"    pm.expect(JSON.parse(responseBody).documents[0].rg).to.eql(pm.environment.get(\"RG\"));\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if cpf is true\", function () { \r",
+									"    pm.expect(JSON.parse(responseBody).documents[0].cpf).to.eql(pm.environment.get(\"Cpf\"));\r",
+									"})\r",
+									"\r",
+									"pm.environment.set(\"client_id\", pm.response.json()._id.client);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fullName\": \"{{FullName}}\",\r\n  \"birthDate\": \"24082023\",\r\n  \"mail\": \"{{Mail}}\",\r\n  \"phone\": \"{{Phone}}\",\r\n  \"currentRole\": \"ADMIN\",\r\n  \"documents\": [\r\n    {\r\n      \"rg\": \"{{RG}}\",\r\n      \"cpf\": \"{{Cpf}}\"\r\n    }\r\n  ],\r\n  \"address\": [\r\n    {\r\n      \"country\": \"Brasil\",\r\n      \"zipCode\": \"61025639\",\r\n      \"city\": \"Belém\",\r\n      \"state\": \"PA\",\r\n      \"district\": \"São Brás\",\r\n      \"street\": \"Rua 3 de Maio\",\r\n      \"number\": \"27\",\r\n      \"complement\": \"Hospital do Coração\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}client/",
+							"host": [
+								"{{url}}client"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check if client's name is true\", function () {\r",
+									"    pm.expect(pm.variables.get(\"FullName\")).to.eql(JSON.parse(responseBody).fullName.clients);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Body contains _id\", function () {\r",
+									"    pm.expect(JSON.parse(responseBody)._id.client).to.exist;\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}client/65f4ff67a7843f8ecc306263",
+							"host": [
+								"{{url}}client"
+							],
+							"path": [
+								"65f4ff67a7843f8ecc306263"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editing client",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function firstName() {\r",
+									"\r",
+									"    let firstName = [ \"Karla\", \"Tathiane\", \"Wagner\", \"Uriel\",\"Maria\", \"Pablo\", \"João\", \"Yasmin\", \"Raissa\", \"Lais\",\"Alicia\", \"Luiz\", \"Maria\", \"Mary\",\"Liz\", \"Tadeu\",\"Luca\", \"Carlos\", \"Eduardo\", \"Felipe\", \"David\", \"Daniel\", \"Yuri\", \"Joaquim\", \"Eduardo\", \"Samuel\", \"Victor\", \"Leonardo\", \"Bruno\", \"Hugo\", \"Augusto\", \"André\", \"Tiago\", \"Calebe\", \"Igor\", \"Levi\", \"Alan\", \"Emanuel\", \"Aarão\", \"Luana\", \"Diana\", \"Marina\", \"Estela\", \"Lia\", \"Micaela\", \"Ariana\", \"Fernanda\", \"Emanuela\", \"Débora\", \"Anita\", \"Eva\", \"Joana\", \"Daniela\", \"Paloma\", \"Yara\", \"Juliana\"];\r",
+									"\r",
+									"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"FirtsName\", firstName());\r",
+									"\r",
+									"function lastName() {\r",
+									"\r",
+									"let lastName = [\"Cruz\", \"Penha\", \"Silva\", \"Pinheiro\",\"da Cruz\", \"Lima\", \"de Carvalho\", \"Araujo\", \"Deluca\", \"Alvez\", \"Luz\",\"Alvarenga\", \"Souza\", \"de Lima\", \"Almeida\", \"Barbosa\", \"Batista\",\" Castro\", \"Duarte\", \"Ferreira\", \"Garcia\", \"Gomes\", \"Lopes\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Rocha\", \"Rodriguez\", \"Santos\", \"Teixeira\", \"Vieira\", \"Soarez\", \"Santana\", \"Gonçalvez\", \"Ribeiro\", \"Ramos\", \"Costa\", \"Carvalho\", \"Martins\", \"Cardoso\", \"Freitas\", \"Mendes\", \"Machado\", \"Marques\", \"Nunes\", \"Moreira\",\"Andrade\", \"Dias\", \"Fernandes\"];\r",
+									"\r",
+									"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"LastName\", lastName());\r",
+									"\r",
+									"pm.environment.set(\"FullName\", pm.environment.get(\"FirtsName\") + \" \" + pm.environment.get(\"LastName\"));\r",
+									"\r",
+									"function providerMail() {\r",
+									"\r",
+									"    let providerMail = [\"@yahoo.com.br\", \"@gmail.com\", \"@outlook.com\", \"@hotmail.com\", \"@uol.com.br\", \"@terra.com\", \"@protonmail.com\", \"@mailbox.org\", \"@hobspot.com\", \"@posteo.com\", \"@privatemail.com\", \"@smartmail.com\", \"@hushmail.com\", \"@coutermail.com\", \"@mailfence.com\", \"@runbox.com\",\"@Kolabnow.com\"];\r",
+									"\r",
+									"    let randomItem = providerMail[Math.floor(Math.random() * providerMail.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"ProviderMail\", providerMail());\r",
+									"\r",
+									"pm.environment.set(\"Mail\", pm.environment.get(\"FirtsName\") + \"_\" + pm.variables.replaceIn('{{$timestamp}}') + pm.environment.get(\"ProviderMail\"));\r",
+									"\r",
+									"var gerarPhoneString = '';\r",
+									"for (var i = 0; i < 13; i++) {\r",
+									"    gerarPhoneString += Math.floor(Math.random() * 10);\r",
+									"}\r",
+									"pm.environment.set(\"Phone\", gerarPhoneString);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de sucesso está presente\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Dados atualizados com sucesso!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Name editing is true\", function() {\r",
+									"    pm.expect(pm.response.json().updatedUser.fullName).to.eql(pm.environment.get(\"FullName\"));\r",
+									"});\r",
+									"\r",
+									"pm.test('Check if fullName true', function () {\r",
+									"    pm.expect(JSON.parse(responseBody).fullName).to.eql(pm.environment.get('FullName'));\r",
+									"})\r",
+									"\r",
+									"pm.test('Check if mail true', function () {\r",
+									"    pm.expect(JSON.parse(responseBody).mail).to.eql(pm.environment.get('Mail'));\r",
+									"})\r",
+									"\r",
+									"pm.test('Check if phone is true', function () {\r",
+									"    pm.expect(JSON.parse(responseBody).phone).to.eql(pm.environment.get('Phone'));\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fullName\": \"joabe da cunha\",\r\n  \"birthDate\": \"24082023\",\r\n  \"mail\": \"testedasilva@teste.com\",\r\n  \"phone\": \"11999998888\",\r\n  \"currentRole\": \"ADMIN\",\r\n  \"documents\": [\r\n    {\r\n      \"rg\": \"6306797\",\r\n      \"cpf\": \"00070880000\"\r\n    }\r\n  ],\r\n  \"address\": [\r\n    {\r\n      \"country\": \"Brasil\",\r\n      \"zipCode\": \"61025639\",\r\n      \"city\": \"Belém\",\r\n      \"state\": \"PA\",\r\n      \"district\": \"São Brás\",\r\n      \"street\": \"Rua 3 de Maio\",\r\n      \"number\": \"27\",\r\n      \"complement\": \"Hospital do Coração\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}client/6614a687aedbabfdea7b2131",
+							"host": [
+								"{{url}}client"
+							],
+							"path": [
+								"6614a687aedbabfdea7b2131"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de sucesso está presente\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include('O cliente ${pm.environment.get(\"FullName\")} foi deletado com sucesso!.');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}client/65f4ff67a7843f8ecc306263",
+							"host": [
+								"{{url}}client"
+							],
+							"path": [
+								"65f4ff67a7843f8ecc306263"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWZmNGE1MzNmNTZhZTFmMzA1OTkwMjYiLCJmdWxsTmFtZSI6Ikp1cmlzY3JlaWRlIENydXoiLCJtYWlsIjoiSnVyaXNjcmVpZGVAdGVzdC5jb20uYnIiLCJwYXNzd29yZCI6IiQyYiQxMCRoZVVpWkZxdE9ONm9DLlpuNVROVFJPS0V0Y0d6UGVBMG1mTnRoWXE3LnRYUms0NVFXNkZESyIsImFjY2Vzc1Byb2ZpbGUiOiJBRE1JTiIsImNwZiI6IjAwMDk5OTc3NzU0Iiwic3RhdHVzIjp0cnVlLCJhdWRpdCI6W3sicmVnaXN0ZXJlZEJ5Ijp7InVzZXJJZCI6IjY1NWU5MWExNzQ4YzYxNzIyOWJjZDY0ZSIsInVzZXJMb2dpbiI6InN5c2FkbWluQHFhY29kZXJzLmNvbSJ9LCJyZWdpc3RyYXRpb25EYXRlIjoic8OhYmFkbywgMjMvMDMvMjAyNCwgMTg6MzI6MDMgQlJUIiwicmVnaXN0cmF0aW9uTnVtYmVyIjoiUWFDb2RlcnMtMjM1IiwiX2lkIjoiNjVmZjRhNTMzZjU2YWUxZjMwNTk5MDI3In0seyJ1cGRhdGVkQnkiOnsidXNlcklkIjoiNjU1ZTkxYTE3NDhjNjE3MjI5YmNkNjRlIiwidXNlckxvZ2luIjoic3lzYWRtaW5AcWFjb2RlcnMuY29tIn0sInVwZGF0ZURhdGUiOiJzw6FiYWRvLCAyMy8wMy8yMDI0LCAyMjoxMDoyNCBCUlQiLCJfaWQiOiI2NWZmN2Q4MDNmNTZhZTFmMzA1OTkwNDAifV0sIl9fdiI6MCwiaWF0IjoxNzEzNTc3MTcxLCJleHAiOjE3MTM2NjM1NzF9.ywmZk6wr_zdXVHNpyKaX-1yD1kokxH-UVuCnqWGLOog",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "query",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
